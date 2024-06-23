@@ -17,13 +17,6 @@ public class Spettacolo {
 	private String titolo, regista;
 	private ArrayList<String> attori;
 	
-	public Spettacolo(int id, String titolo, String regista, ArrayList<String> attori) {
-		super();
-		this.id = id;
-		this.titolo = titolo;
-		this.regista = regista;
-		this.attori = attori;
-	}
 	
 	public int getId() {
 		return id;
