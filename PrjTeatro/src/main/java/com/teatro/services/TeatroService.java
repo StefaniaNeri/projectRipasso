@@ -14,6 +14,7 @@ import com.teatro.entities.Spettacolo;
 public interface TeatroService {
 	
 	List<Spettacolo> getSpettacoli();
+	Spettacolo getSpettacoloById(int id);
 	List<Biglietto> getBiglietti();
 	List<Posto> getPosti();
 	List<Replica> getRepliche();
@@ -31,10 +32,10 @@ public interface TeatroService {
 	Replica updReplica(Replica r);
 	Prenotazione updPrenotazione(Prenotazione p);
 
-	void updSpettacolo();
-	void updBiglietto();
-	void updPosto();
-	void updReplica();
-	void updPrenotazione();
+	void delSpettacolo(Spettacolo s);
+	void delBiglietto(Biglietto b);
+	void delPosto(Posto p);
+	void delReplica(Replica r);
+	void delPrenotazione(Prenotazione p);
 	
 }
