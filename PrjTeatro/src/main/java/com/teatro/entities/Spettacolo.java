@@ -1,6 +1,7 @@
 package com.teatro.entities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ public class Spettacolo {
 	private int id;
 	
 	private String titolo, regista;
-	private ArrayList<String> attori;
+	private String attori;
 	
 	
 	public int getId() {
@@ -36,10 +37,10 @@ public class Spettacolo {
 	public void setRegista(String regista) {
 		this.regista = regista;
 	}
-	public ArrayList<String> getAttori() {
+	public String getAttori() {
 		return attori;
 	}
-	public void setAttori(ArrayList<String> attori) {
+	public void setAttori(String attori) {
 		this.attori = attori;
 	}
 	

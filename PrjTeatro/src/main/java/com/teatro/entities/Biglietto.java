@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Biglietto {
@@ -13,6 +16,13 @@ public class Biglietto {
 	private int id;
 	
 	private double costoBiglietto;
+	
+	@OneToOne
+	private Posto posto;
+	
+	@ManyToOne
+	@JoinColumn(name="id_prenotazione")
+	private Prenotazione prenotazione;
 
 	public int getId() {
 		return id;
