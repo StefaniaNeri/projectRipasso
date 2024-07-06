@@ -1,6 +1,8 @@
 package com.teatro.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,7 +16,9 @@ public class Posto {
 	
 	private int numero;
 	private String fila;
-	private Enum tipoPosto;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoPosto tipoPosto;
 	
 	public int getId() {
 		return id;
@@ -37,7 +41,7 @@ public class Posto {
 	public Enum getTipoPosto() {
 		return tipoPosto;
 	}
-	public void setTipoPosto(Enum tipoPosto) {
+	public void setTipoPosto(TipoPosto tipoPosto) {
 		this.tipoPosto = tipoPosto;
 	}
 	
