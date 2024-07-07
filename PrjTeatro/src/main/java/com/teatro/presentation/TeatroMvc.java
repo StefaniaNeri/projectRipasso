@@ -6,9 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class TeatroMvc {
 	
-	@GetMapping("")
+	@GetMapping("index")
 	public String home() {
 		return "index";
+	}
+	
+	@GetMapping("carrello")
+	public String carrello() {
+		return "carrello";
 	}
 
 }
