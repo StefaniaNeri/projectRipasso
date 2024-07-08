@@ -22,6 +22,10 @@
     .btn-color {
       background-color: #50B498
     }
+
+    /* .textDisabled {
+      color: #50b4987d
+    } */
   </style>
 </head>
 
@@ -44,12 +48,7 @@
               <a class="nav-link" href="#">Prenotazioni</a>
             </li>
           </ul>
-          <div class="d-flex align-items-center m-0 ">
-            <button class=" btn btn-link shadow-none"><a aria-current="page"
-                class="fs-4 text-decoration-none btn btn-outline-success active" href="carrello.html">Carrello <i
-                  class='bi bi-cart'></i>
-                <span class="visually-hidden">(current)</span></a> </button>
-          </div>
+
         </div>
       </div>
     </nav>
@@ -58,13 +57,33 @@
   <main>
 
     <div class="container">
-      <h1 class="text-center mt-4">Spettacoli nel carrello</h1>
+      <h1 class="text-center my-4">Spettacoli nel carrello</h1>
 
       <div class="row">
-        <div class="col-6" id="scelte">
+        <div class="col-6">
+          <h3>Spettacoli selezionati:</h3>
+          <h5 id="titoliSelezionati"></h5>
+          <h3>Scegli posto e fila</h3>
+          <select name="" id="postiSelect">
+
+          </select>
+
+          <h3>Scegli giorno e orario</h3>
+          <select name="" id="replicaSelect"></select>
 
         </div>
-        <div class="col-6" id="riepilogo"></div>
+        <div class="col-6">
+          <h3>Riepilogo</h3>
+
+        </div>
+        <div class="row justify-content-end">
+          <div class="col-6 ">
+
+            <a name="btnPrenota" id="btnPrenota" class="btn btn-success  fs-4 py-3 px-5 disabled" href="#"
+              role="button">Prenota</a>
+          </div>
+
+        </div>
       </div>
 
 
@@ -86,15 +105,56 @@
 
     let itemsCarrello = localStorage.getItem("spetCarrello") ? JSON.parse(localStorage.getItem("spetCarrello")) : [];
 
-    let scelte = document.querySelector("#scelte")
-    let riepilogo = document.querySelector("#riepilogo")
 
-    let replicaURL = "http://localhost:9002/api/repliche"
+    let titoliSelezionati = document.querySelector("#titoliSelezionati")
+    let postiSelect = document.querySelector("#postiSelect")
+    let replicaSelect = document.querySelector("#replicaSelect")
 
-    fetch(replicaURL).then(data => { return data.json() }).then(repliche => {
+    let btnPrenota = document.querySelector('#btnPrenota')
 
-    })
+    let replicheURL = "http://localhost:9002/api/repliche";
+    let postiURL = "http://localhost:9002/api/posti";
 
+
+    Promise.all([
+      fetch(replicheURL).then(response => response.json()),
+      fetch(postiURL).then(response => response.json()),
+    ]).then(([posti, repliche]) => {
+
+      titoliSelezionati.textContent = itemsCarrello[0].titolo;
+      titoliSelezionati.classList.add("my-4")
+
+      posti.forEach(posto => {
+        let option = document.createElement("option");
+        option.textContent = `Fila: ${posto.fila}. Numero: ${posto.numero}. Area: ${posto.tipoPosto}`;
+        option.setAttribute("value", posto.fila + posto.numero + posto.tipoPosto)
+
+        postiSelect.append(option);
+
+      });
+
+      // repliche.forEach(replica => {
+      //   let option = document.createElement("option");
+
+
+
+      // });
+
+
+      // if fatte tutte le selezioni:
+      // btnPrenota.classList.remove("disabled")
+
+      // Svuota il carrello se si esce dalla pagina del carrello
+      window.addEventListener('beforeunload', function (event) {
+        if (window.location.pathname === '/carrello.html' && window.performance.navigation.type === 1) {
+          localStorage.clear();
+        }
+      });
+
+
+    }).catch(error => {
+      console.error('Errore nel fetch:', error);
+    });
 
 
   </script>

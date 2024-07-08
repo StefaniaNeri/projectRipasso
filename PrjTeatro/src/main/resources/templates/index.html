@@ -45,11 +45,7 @@
               <a class="nav-link" href="#">Prenotazioni</a>
             </li>
           </ul>
-          <div class="d-flex align-items-center m-0 ">
-            <button class=" btn btn-link shadow-none"><a aria-current="page"
-                class="fs-4 text-decoration-none btn btn-outline-success " href="carrello.html">Carrello <i
-                  class='bi bi-cart'></i></a> </button>
-          </div>
+
         </div>
       </div>
     </nav>
@@ -123,6 +119,8 @@
           itemsCarrello.push(spettacolo);
           let itemsCarrelloJSON = JSON.stringify(itemsCarrello);
           localStorage.setItem("spetCarrello", itemsCarrelloJSON)
+
+          window.location = "carrello.html";
         })
 
       });

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.teatro.entities.Posto;
 import com.teatro.entities.Prenotazione;
 import com.teatro.entities.Replica;
 import com.teatro.entities.Spettacolo;
@@ -41,6 +42,11 @@ public class TeatroREST {
 	@GetMapping("repliche")
 	public List<Replica> getRepliche(){
 		return tService.getRepliche();
+	}
+	
+	@GetMapping("posti")
+	public List<Posto> getPosti(){
+		return tService.getPosti();
 	}
 	
 	@GetMapping("prenotazioni")
