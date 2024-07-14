@@ -5,12 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.teatro.entities.Biglietto;
 import com.teatro.entities.Posto;
 import com.teatro.entities.Prenotazione;
 import com.teatro.entities.Replica;
 import com.teatro.entities.Spettacolo;
-import com.teatro.repos.BigliettoDAO;
 import com.teatro.repos.PostoDAO;
 import com.teatro.repos.PrenotazioneDAO;
 import com.teatro.repos.ReplicaDAO;
@@ -21,9 +19,6 @@ public class TeatroServiceImpl implements TeatroService {
 	
 	@Autowired
 	SpettacoloDAO spDao;
-	
-	@Autowired
-	BigliettoDAO bDao;
 	
 	@Autowired
 	PostoDAO pDao;
@@ -44,11 +39,6 @@ public class TeatroServiceImpl implements TeatroService {
 	@Override
 	public Spettacolo getSpettacoloById(int id) {
 		return spDao.findById(id).get();
-	}
-	
-	@Override
-	public List<Biglietto> getBiglietti() {
-		return bDao.findAll();
 	}
 
 	@Override
@@ -74,11 +64,6 @@ public class TeatroServiceImpl implements TeatroService {
 	}
 
 	@Override
-	public Biglietto addBiglietto(Biglietto b) {
-		return bDao.save(b);
-	}
-
-	@Override
 	public Posto addPosto(Posto p) {
 		return pDao.save(p);
 	}
@@ -101,11 +86,6 @@ public class TeatroServiceImpl implements TeatroService {
 	}
 
 	@Override
-	public Biglietto updBiglietto(Biglietto b) {
-		return bDao.save(b);
-	}
-
-	@Override
 	public Posto updPosto(Posto p) {
 		return pDao.save(p);
 	}
@@ -125,11 +105,6 @@ public class TeatroServiceImpl implements TeatroService {
 	@Override
 	public void delSpettacolo(Spettacolo s) {
 		spDao.delete(s);
-	}
-
-	@Override
-	public void delBiglietto(Biglietto b) {
-		bDao.delete(b);
 	}
 
 	@Override

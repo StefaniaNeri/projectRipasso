@@ -17,8 +17,18 @@ public class Posto {
 	private int numero;
 	private String fila;
 	
+	private double prezzo;
+	
 	@Enumerated(EnumType.STRING)
 	private TipoPosto tipoPosto;
+	
+	
+	public double getPrezzo() {
+		return prezzo;
+	}
+	public void setPrezzo(double prezzo) {
+		this.prezzo = prezzo;
+	}
 	
 	public int getId() {
 		return id;

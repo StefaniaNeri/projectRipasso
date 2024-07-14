@@ -57,27 +57,32 @@
   <main>
 
     <div class="container">
-      <h1 class="text-center my-4">Spettacoli nel carrello</h1>
+      <h1 class="text-center my-5">Spettacoli nel carrello</h1>
 
-      <div class="row">
-        <div class="col-6">
-          <h3>Spettacoli selezionati:</h3>
+      <div class="row my-2">
+        <div class="col-6 mb-4 pe-5">
+          <h3>Spettacolo selezionato:</h3>
           <h5 id="titoliSelezionati"></h5>
           <h3>Scegli posto e fila</h3>
-          <select name="" id="postiSelect">
+          <select name="" id="postiSelect" class="form-select">
+            <option value="">Seleziona dove vuoi sederti</option>
 
           </select>
 
           <h3>Scegli giorno e orario</h3>
-          <select name="" id="replicaSelect"></select>
+          <select name="" id="replicaSelect" class="form-select">
+            <option value="">Seleziona data e ora</option>
+
+          </select>
 
         </div>
-        <div class="col-6">
-          <h3>Riepilogo</h3>
+        <div class="col-6 mb-4">
+          <h2 class="mb-4">Riepilogo</h2>
 
+          <div id="riepilogoContent"></div>
         </div>
         <div class="row justify-content-end">
-          <div class="col-6 ">
+          <div class="col-6 mb-4">
 
             <a name="btnPrenota" id="btnPrenota" class="btn btn-success  fs-4 py-3 px-5 disabled" href="#"
               role="button">Prenota</a>
@@ -110,48 +115,151 @@
     let postiSelect = document.querySelector("#postiSelect")
     let replicaSelect = document.querySelector("#replicaSelect")
 
+    let riepilogoContent = document.querySelector("#riepilogoContent")
+
     let btnPrenota = document.querySelector('#btnPrenota')
 
-    let replicheURL = "http://localhost:9002/api/repliche";
     let postiURL = "http://localhost:9002/api/posti";
+    let replicheURL = "http://localhost:9002/api/repliche";
 
 
     Promise.all([
-      fetch(replicheURL).then(response => response.json()),
       fetch(postiURL).then(response => response.json()),
+      fetch(replicheURL).then(response => response.json()),
     ]).then(([posti, repliche]) => {
 
       titoliSelezionati.textContent = itemsCarrello[0].titolo;
       titoliSelezionati.classList.add("my-4")
 
+      let postoFilaTitle = document.createElement("h4")
+      let postoScelto = document.createElement("h5")
+      let prezzoTitle = document.createElement("h4")
+      let prezzoScelto = document.createElement("h5")
+
+
       posti.forEach(posto => {
         let option = document.createElement("option");
-        option.textContent = `Fila: ${posto.fila}. Numero: ${posto.numero}. Area: ${posto.tipoPosto}`;
+        option.textContent = `Fila: ${posto.fila}. Numero: ${posto.numero}. Area: ${posto.tipoPosto}.`;
         option.setAttribute("value", posto.fila + posto.numero + posto.tipoPosto)
 
         postiSelect.append(option);
 
       });
 
-      // repliche.forEach(replica => {
-      //   let option = document.createElement("option");
+      postiSelect.addEventListener("change", function () {
+        postoFilaTitle.textContent = "Posto scelto:";
+        prezzoTitle.textContent = "Prezzo:"
+        let selectedOption = postiSelect.options[postiSelect.selectedIndex].text
+        postoScelto.textContent = selectedOption;
+        prezzoScelto.textContent = `${posti[postiSelect.selectedIndex].prezzo.toString().padEnd(4, '0').replace('.', ',')}€`;
+
+
+        if (postoScelto.textContent !== "Seleziona dove vuoi sederti" && postoScelto.textContent !== "") {
+          btnPrenota.classList.remove('disabled');
+
+        } else {
+          prezzoTitle.textContent = ""
+          prezzoScelto.textContent = ""
+          btnPrenota.classList.add('disabled');
+        }
+
+      })
+
+      riepilogoContent.append(postoFilaTitle, postoScelto)
+
+      let replicaId;
+      let data;
+      let ora;
+
+      repliche.forEach(replica => {
+        let option = document.createElement("option");
+        option.textContent = `Data: ${replica.data}. Ora: ${replica.ora.substring(0, 5)}`;
+        option.setAttribute("value", replica.data + replica.ora)
+
+        replicaSelect.append(option);
+
+
+      });
+
+      let giornoOrarioTitle = document.createElement("h4")
+      let giornoOraScelti = document.createElement("h5")
+
+      replicaSelect.addEventListener("change", function () {
+        giornoOrarioTitle.textContent = "Giorno e orario scelti:";
+        let selectedOption = replicaSelect.options[replicaSelect.selectedIndex].text
+        giornoOraScelti.textContent = selectedOption;
+
+        replicaId = repliche[replicaSelect.selectedIndex].id - 1;
+        data = repliche[replicaSelect.selectedIndex].data;
+        ora = repliche[replicaSelect.selectedIndex].ora;
+
+        console.log(replicaId);
+        console.log(repliche);
+      })
+
+      riepilogoContent.append(giornoOrarioTitle, giornoOraScelti);
+      riepilogoContent.append(prezzoTitle, prezzoScelto);
+
+      ///// POST
+      btnPrenota.addEventListener("click", function () {
+        class Prenotazione {
+          constructor(dataPrenotazione, replicaId, titoloSpettacolo) {
+            this.dataPrenotazione = dataPrenotazione;
+            this.replicaId = replicaId;
+            this.titoloSpettacolo = titoloSpettacolo;
+          }
+        }
+
+        class Replica {
+          constructor(replicaId, data, ora) {
+            this.replicaId = replicaId;
+            this.data = data;
+            this.ora = ora;
+          }
+        }
+        let replica = new Replica(replicaId, data, ora)
+
+        let prenotazione = new Prenotazione(new Date(), replica, itemsCarrello[0].titolo)
+
+        console.log(replicaId);
+
+        fetch('http://localhost:9002/api/prenotazioni', {
+          headers: { 'Content-Type': 'application/json' },
+          method: 'POST',
+          body: JSON.stringify(prenotazione),
+        }).then(response => { return response.json() }).then(data => {
+          console.log(data);
+        })
+
+      })
 
 
 
-      // });
+
+      // if ((postoScelto.textContent !== "Seleziona dove vuoi sederti" || postoScelto.textContent !== "") && (giornoOraScelti.textContent !== "Seleziona data e ora" || giornoOraScelti.textContent !== "")) {
+      //   btnPrenota.classList.remove('disabled');
+
+      // } else {
+      //   prezzoTitle.textContent = ""
+      //   prezzoScelto.textContent = ""
+      //   btnPrenota.classList.add('disabled');
+      // }
 
 
+
+
+
+
+      /////////////// NO
       // if fatte tutte le selezioni:
       // btnPrenota.classList.remove("disabled")
 
-      // Svuota il carrello se si esce dalla pagina del carrello
-      window.addEventListener('beforeunload', function (event) {
-        if (window.location.pathname === '/carrello.html' && window.performance.navigation.type === 1) {
-          localStorage.clear();
-        }
-      });
-
-
+      // Svuota il carrello se si esce dalla pagina del carrello. Non serve più perchè in index gli ho messo che al click si sostituisce l'elemento che va in itemsCarrello. Tra l'altro quel navigation type ecc non funzionava bene, al refresh mi svuotava comunque il carrello anche se non doveva, funzionava solo al primo refresh ma non con due refresh
+      // window.addEventListener('pagehide', function (event) {
+      //   if (window.location.pathname === '/carrello.html' && window.performance.navigation.type === 1) {
+      //     localStorage.clear();
+      //   }
+      // });
     }).catch(error => {
       console.error('Errore nel fetch:', error);
     });

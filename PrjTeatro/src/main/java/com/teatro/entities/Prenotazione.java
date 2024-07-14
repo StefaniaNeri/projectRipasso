@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -17,14 +18,13 @@ public class Prenotazione {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_prenotazione;
 	
-    private String nomeCliente;
+    private String titoloSpettacolo;
     private Date dataPrenotazione;
     
     @OneToOne
+    @JoinColumn(name = "replica_id")
     private Replica replica;
-    
-    @OneToMany(mappedBy = "prenotazione")
-    private Set<Biglietto> biglietti;
+   
 
 	public int getId() {
 		return id_prenotazione;
@@ -34,12 +34,12 @@ public class Prenotazione {
 		this.id_prenotazione = id_prenotazione;
 	}
 
-	public String getNomeCliente() {
-		return nomeCliente;
+	public String getTitoloSpettacolo() {
+		return titoloSpettacolo;
 	}
 
-	public void setNomeCliente(String nomeCliente) {
-		this.nomeCliente = nomeCliente;
+	public void setTitoloSpettacolo(String titoloSpettacolo) {
+		this.titoloSpettacolo = titoloSpettacolo;
 	}
 
 	public Date getDataPrenotazione() {
@@ -58,13 +58,5 @@ public class Prenotazione {
 		this.replica = replica;
 	}
 
-	public Set<Biglietto> getBiglietti() {
-		return biglietti;
-	}
-
-	public void setBiglietti(Set<Biglietto> biglietti) {
-		this.biglietti = biglietti;
-	}
-    
 
 }
