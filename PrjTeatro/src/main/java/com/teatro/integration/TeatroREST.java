@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.teatro.entities.Posto;
 import com.teatro.entities.Prenotazione;
+import com.teatro.entities.PrenotazioneDTO;
 import com.teatro.entities.Replica;
 import com.teatro.entities.Spettacolo;
 import com.teatro.services.TeatroService;
@@ -54,9 +55,20 @@ public class TeatroREST {
 		return tService.getPrenotazioni();
 	}
 	
+	
 	@PostMapping("prenotazioni")
-	public Prenotazione addPrenotazioni(@RequestBody Prenotazione p){
-		return tService.addPrenotazione(p);
-	}
+	public Prenotazione addPrenotazione(@RequestBody PrenotazioneDTO prenotazioneDTO) {
+        // Crea una nuova Prenotazione
+        Prenotazione prenotazione = new Prenotazione();
+        prenotazione.setDataPrenotazione(prenotazioneDTO.getDataPrenotazione());
+        prenotazione.setTitoloSpettacolo(prenotazioneDTO.getTitoloSpettacolo());
 
+        // Ottieni la replica dal servizio utilizzando l'ID passato nel DTO
+        Replica replica = tService.getReplicaById(prenotazioneDTO.getReplicaId());
+        prenotazione.setReplica(replica);
+        
+
+        // Salva e restituisci la prenotazione
+        return tService.addPrenotazione(prenotazione);
+	}
 }

@@ -1,18 +1,22 @@
 package com.teatro.entities;
 
 import java.sql.Date;
-import java.util.Set;
+import java.util.Optional;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
 public class Prenotazione {
+	
+	public Prenotazione() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +25,7 @@ public class Prenotazione {
     private String titoloSpettacolo;
     private Date dataPrenotazione;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "replica_id")
     private Replica replica;
    

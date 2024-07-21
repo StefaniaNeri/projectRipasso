@@ -1,6 +1,7 @@
 package com.teatro.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -32,5 +33,6 @@ public interface TeatroService {
 	void delPosto(Posto p);
 	void delReplica(Replica r);
 	void delPrenotazione(Prenotazione p);
+	Replica getReplicaById(int id);
 	
 }

@@ -1,6 +1,7 @@
 package com.teatro.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import com.teatro.repos.PostoDAO;
 import com.teatro.repos.PrenotazioneDAO;
 import com.teatro.repos.ReplicaDAO;
 import com.teatro.repos.SpettacoloDAO;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class TeatroServiceImpl implements TeatroService {
@@ -50,6 +53,12 @@ public class TeatroServiceImpl implements TeatroService {
 	public List<Replica> getRepliche() {
 		return rDao.findAll();
 	}
+	@Override
+	public Replica getReplicaById(int id) {
+	    Optional<Replica> optionalReplica = rDao.findById(id);
+	    return optionalReplica.orElseThrow(() -> new EntityNotFoundException("Replica not found with id: " + id));
+	}
+
 
 	@Override
 	public List<Prenotazione> getPrenotazioni() {

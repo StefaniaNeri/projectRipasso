@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Title</title>
+  <title>Carrello</title>
   <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -189,12 +189,12 @@
         let selectedOption = replicaSelect.options[replicaSelect.selectedIndex].text
         giornoOraScelti.textContent = selectedOption;
 
-        replicaId = repliche[replicaSelect.selectedIndex].id - 1;
-        data = repliche[replicaSelect.selectedIndex].data;
-        ora = repliche[replicaSelect.selectedIndex].ora;
+        replicaId = repliche[replicaSelect.selectedIndex - 1].id;
+        data = repliche[replicaSelect.selectedIndex - 1].data;
+        ora = repliche[replicaSelect.selectedIndex - 1].ora;
 
-        console.log(replicaId);
-        console.log(repliche);
+        // console.log(replicaId);
+        // console.log(repliche);
       })
 
       riepilogoContent.append(giornoOrarioTitle, giornoOraScelti);
@@ -203,10 +203,10 @@
       ///// POST
       btnPrenota.addEventListener("click", function () {
         class Prenotazione {
-          constructor(dataPrenotazione, replicaId, titoloSpettacolo) {
+          constructor(dataPrenotazione, titoloSpettacolo, replicaId) {
             this.dataPrenotazione = dataPrenotazione;
-            this.replicaId = replicaId;
             this.titoloSpettacolo = titoloSpettacolo;
+            this.replicaId = replicaId;
           }
         }
 
@@ -219,17 +219,19 @@
         }
         let replica = new Replica(replicaId, data, ora)
 
-        let prenotazione = new Prenotazione(new Date(), replica, itemsCarrello[0].titolo)
+        let prenotazione = new Prenotazione(new Date(), itemsCarrello[0].titolo, replicaId)
 
-        console.log(replicaId);
+        console.log(replica);
 
         fetch('http://localhost:9002/api/prenotazioni', {
           headers: { 'Content-Type': 'application/json' },
           method: 'POST',
           body: JSON.stringify(prenotazione),
         }).then(response => { return response.json() }).then(data => {
-          console.log(data);
+          console.log(data, replica);
         })
+
+        window.location = "prenotazioni.html"
 
       })
 
