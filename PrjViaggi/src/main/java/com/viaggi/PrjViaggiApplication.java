@@ -1,13 +1,13 @@
-package com.banking;
+package com.viaggi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PrjBankingApplication {
+public class PrjViaggiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PrjBankingApplication.class, args);
+		SpringApplication.run(PrjViaggiApplication.class, args);
 	}
 
 }

@@ -8,10 +8,10 @@
 		<version>3.3.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.banking</groupId>
-	<artifactId>PrjBanking</artifactId>
+	<groupId>com.viaggi</groupId>
+	<artifactId>PrjViaggi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>PrjBanking</name>
+	<name>PrjViaggi</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
