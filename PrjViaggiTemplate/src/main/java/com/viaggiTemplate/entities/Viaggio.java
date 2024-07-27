@@ -1,4 +1,4 @@
-package com.viaggi.entities;
+package com.viaggiTemplate.entities;
 
 import java.util.HashSet;
 import java.util.Set;

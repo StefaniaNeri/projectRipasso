@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand navbar-light bg-light">
+            <ul class="nav navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" aria-current="page">Nav 1 <span
+                            class="visually-hidden">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Carrello</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./login.html">Login</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+
+                    <ul class="list-group list-group mt-4" id="listaProd">
+                        <!-- <li class="list-group-item">Active item</li>
+                            <li class="list-group-item">Item</li>
+                            <li class="list-group-item">Disabled item</li> -->
+                    </ul>
+
+
+
+                </div>
+
+                <div class="col-6">
+
+                    <div class="mb-3">
+                        <label for="" class="form-label">Name</label>
+                        <input type="text" class="form-control" name="" id="" placeholder="" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="" class="form-label">Email</label>
+                        <input type="text" class="form-control" name="" id="" placeholder="" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="" class="form-label">Indirizzo</label>
+                        <input type="text" class="form-control" name="" id="" placeholder="" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="" class="form-label">Metodo di pagamento</label>
+                        <select class="form-select form-select-lg" name="" id="">
+                            <option selected disabled>Seleziona metodo</option>
+                            <option value="">PayPal</option>
+                            <option value="">Carta di Credito</option>
+                            <option value="">Alla consegna</option>
+                        </select>
+                    </div>
+
+
+                    <button type="button" class="btn btn-primary">
+                        Invia
+                    </button>
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+    <footer>
+        <!-- place footer here -->
+    </footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+
+    <script>
+        function caricaCarrello() {
+            //fetch per recuperare gli oggetti nel carrello
+            const urlCarrello = "https://66a0fb7f7053166bcabd9541.mockapi.io/tssrecap/v1/carrello";
+
+            listaProd.innerHTML = "";
+
+            fetch(urlCarrello)
+                .then(data => { return data.json() })
+                .then(response => {
+                    if (response.length > 0) {
+                        response.forEach(item => {
+                            listaProd.appendChild(creaItem(item))
+                        });
+
+                    } else {
+                        console.log("Mi spiace, il tuo carrello è vuoto");
+                        listaProd.innerHTML = "<h3> Mi spiace, non ci sono prodotti nel carrello </h3>"
+                    }
+                })
+        }
+
+        let listaProd = document.querySelector("#listaProd");
+
+        function creaItem(item) {
+
+            let liItem = document.createElement("li");
+            liItem.textContent = item.name + " " + item.price;
+            liItem.setAttribute("class", "list-group-item d-flex justify-content-between align-items-center");
+
+            let btnDel = document.createElement("button");
+            btnDel.setAttribute("class", "btn btn-danger")
+            btnDel.innerHTML = "<i class='bi bi-trash3'></i>";
+
+            btnDel.addEventListener("click", function () {
+                eliminaItem(item.id)
+            });
+
+            liItem.appendChild(btnDel);
+
+            return liItem;
+        }
+
+        function eliminaItem(idItem) {
+            const urlCarrelloDel = "https://66a0fb7f7053166bcabd9541.mockapi.io/tssrecap/v1/carrello/" + idItem;
+
+            fetch(urlCarrelloDel, {
+                method: "DELETE"
+            }).then(res => {
+                console.log(res);
+                if (res.ok) {
+                    return res.json();
+                }
+            }).then(task => {
+                console.log(task);
+                // location.reload();
+                caricaCarrello();
+            })
+
+        }
+
+        document.addEventListener("DOMContentLoaded", caricaCarrello);
+    </script>
+</body>
+
+</html>

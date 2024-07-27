@@ -1,4 +1,4 @@
-package com.viaggi.entities;
+package com.viaggiTemplate.entities;
 
 import java.sql.Date;
 

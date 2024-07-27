@@ -8,10 +8,10 @@
 		<version>3.3.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.viaggi</groupId>
-	<artifactId>PrjViaggi</artifactId>
+	<groupId>com.viaggiTemplate</groupId>
+	<artifactId>PrjViaggiTemplate</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>PrjViaggi</name>
+	<name>PrjViaggiTemplate</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -54,9 +54,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-
-
 	</dependencies>
 
 	<build>
