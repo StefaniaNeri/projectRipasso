@@ -15,19 +15,38 @@
   <style>
     body {
       background-image: url(https://wallpapers.com/images/hd/hd-wallpaper-travel-j1qko25gehb442dh.webp);
+    }
+
+    .parallax {
+      /* Set a specific height */
+      min-height: 500px;
+
+      /* Create the parallax scrolling effect */
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
       background-size: cover;
     }
 
     .btn-color {
       background-color: #3384b3;
     }
+
+    .bg-header {
+      background-color: #11111178;
+
+    }
+
+    .bg-color {
+      background-color: #2473a1c8;
+    }
   </style>
 </head>
 
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100 parallax">
   <header>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-      <a class="navbar-brand ps-5" href="#">VIAGGI</a>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-header py-3">
+      <a class="navbar-brand ps-5" href="#">TRIPZ</a>
       <div class="container">
         <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
           data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
@@ -36,11 +55,11 @@
         </button>
         <div class="collapse navbar-collapse d-flex align-items-center" id="collapsibleNavId">
           <ul class="navbar-nav me-auto mt-2 mt-lg-0 fs-4">
-            <li class="nav-item  me-3">
+            <li class="nav-item border rounded me-3 px-3">
               <a class="nav-link active" href="#" aria-current="page">Home
                 <span class="visually-hidden">(current)</span></a>
             </li>
-            <li class="nav-item me-3 d-none" id="navUtenti">
+            <li class="nav-item me-3 d-none border rounded px-3" id="navUtenti">
               <a class="nav-link" href="utenti.html">Utenti</a>
             </li>
 
@@ -50,8 +69,9 @@
       </div>
       <div class="nav-item ms-auto">
 
-        <button id="btnCarrello" class="btn btn-color fs-4 text-white me-3">Carrello <i class='bi bi-cart'></i></button>
-        <button id="btnLogout" class="btn btn-danger fs-4 me-5">Logout</button>
+        <button id="btnCarrello" class="btn btn-color fs-4 text-white me-3 border">Carrello <i
+            class='bi bi-cart'></i></button>
+        <button id="btnLogout" class="btn btn-danger fs-4 me-5 border">Logout</button>
       </div>
     </nav>
 
@@ -60,14 +80,14 @@
     <div class="container">
       <h1 class="text-center mt-4">Viaggi disponibili</h1>
 
-      <div id="listaViaggi" class="mt-5 d-flex flex-wrap justify-content-center"></div>
+      <div id="listaViaggi" class="my-5 d-flex flex-wrap justify-content-center"></div>
 
 
     </div>
 
 
   </main>
-  <footer class="mt-auto bg-dark text-white text-center py-4 d-flex align-items-center justify-content-center">
+  <footer class="mt-auto bg-header text-white text-center py-3 d-flex align-items-center justify-content-center">
     <small class="fs-5">&copy;Stefania B22-104-2024 TSS</small>
   </footer>
   <!-- Bootstrap JavaScript Libraries -->
@@ -88,7 +108,7 @@
       const URLViaggi = "http://localhost:9004/api/viaggi";
 
       let listaViaggi = document.querySelector('#listaViaggi');
-      let itemsCarrello = localStorage.getItem("viaggiCarrello") ? JSON.parse(localStorage.getItem("viaggiCarrello")) : [];
+      let viaggiCarrello = localStorage.getItem("viaggiCarrello") ? JSON.parse(localStorage.getItem("viaggiCarrello")) : [];
 
       fetch(URLViaggi).then(data => { return data.json() }).then(viaggi => {
         let userConnessoJSON = localStorage.getItem("userConnesso");
@@ -97,7 +117,7 @@
         ///////// MOSTRA VIAGGI
         viaggi.forEach(viaggio => {
           let card = document.createElement("div");
-          card.setAttribute("class", "shadow p-3 bg-body card m-3 border border-4 border-dark rounded-3");
+          card.setAttribute("class", "shadow p-3 bg-color text-white card m-3 border border-light rounded-3");
           card.style.width = "20rem";
           listaViaggi.append(card);
 
@@ -109,7 +129,7 @@
           cardBody.setAttribute("class", "card-body");
 
           let button = document.createElement("button");
-          button.setAttribute("class", "btn btn-color py-2 fs-5");
+          button.setAttribute("class", "btn btn-color border text-white py-2 fs-5");
           button.textContent = "Prenota";
 
           card.append(cardImg, cardBody, button);
@@ -121,7 +141,7 @@
 
             // Creo button per eliminare il viaggio
             let buttonDelete = document.createElement("button");
-            buttonDelete.setAttribute("class", "btn btn-danger py-2 fs-5 mt-1");
+            buttonDelete.setAttribute("class", "btn btn-danger border border-light py-2 fs-5 mt-2");
             buttonDelete.textContent = "Elimina destinazione";
 
             card.append(buttonDelete);
@@ -165,9 +185,24 @@
           // AGGIUNGERE VIAGGI AL CARRELLO
           button.addEventListener('click', function () {
 
-            itemsCarrello.push(viaggio);
-            let itemsCarrelloJSON = JSON.stringify(itemsCarrello);
-            localStorage.setItem("viaggiCarrello", itemsCarrelloJSON)
+            viaggiCarrello.push(viaggio);
+            let viaggiCarrelloJSON = JSON.stringify(viaggiCarrello);
+            localStorage.setItem("viaggiCarrello", viaggiCarrelloJSON)
+
+            // Prenota diventa non cliccabile
+            button.classList.add("disabled");
+
+            // // Appare bottone elimina da carrello
+            // let buttonDelete = document.createElement("button");
+            // buttonDelete.setAttribute("class", "btn btn-danger mt-3");
+            // buttonDelete.textContent = "Elimina dal carrello";
+            // card.append(buttonDelete);
+
+            // buttonDelete.addEventListener("click", function () {
+            //   let index = viaggi.indexOf(viaggio);
+            //   viaggiCarrello.splice(index, 1);
+            //   localStorage.setItem("viaggiCarrello", JSON.stringify(viaggiCarrello))
+            // })
 
           })
 

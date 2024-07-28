@@ -19,7 +19,7 @@ public class Utente {
 	
 	private String nome, email, password, role;
 	
-	@OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "utente", cascade = CascadeType.MERGE)
 	private Set<Prenotazione> prenotazioni = new HashSet<Prenotazione>();
 
 	public int getId_utente() {

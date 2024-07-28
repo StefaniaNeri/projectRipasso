@@ -47,4 +47,9 @@ public class ViaggiREST {
 	public Viaggio addViaggio(@RequestBody Viaggio v) {
 		return vServ.addViaggio(v);
 	}
+	
+	@PostMapping("prenotazioni")
+	public Prenotazione addPrenotazione(@RequestBody Prenotazione p) {
+		return vServ.addPrenotazione(p);
+	}
 }

@@ -19,11 +19,11 @@ public class Prenotazione {
 	
 	private Date dataPrenotazione;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name= "id_viaggio")
 	private Viaggio viaggio;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name= "id_utente")
 	private Utente utente;
 
