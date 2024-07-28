@@ -3,6 +3,7 @@ package com.viaggiTemplate.integration;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,6 +51,13 @@ public class ViaggiREST {
 	
 	@PostMapping("prenotazioni")
 	public Prenotazione addPrenotazione(@RequestBody Prenotazione p) {
+		
+ 
 		return vServ.addPrenotazione(p);
+	}
+	
+	@DeleteMapping("viaggi")
+	public void deleteViaggio(@RequestBody Viaggio v) {
+		vServ.delViaggio(v);
 	}
 }

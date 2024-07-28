@@ -54,16 +54,18 @@ public class ViaggiServiceImpl implements ViaggiServices{
 	@Override
 	public Prenotazione addPrenotazione(Prenotazione p) {
 		
-		 if (p.getViaggi() != null) {
+		
+		for (Viaggio viaggio : p.getViaggi()) {
+			viaggio.setPrenotazione(p);
+//			vDao.save(viaggio);
+		}
+		
+ 	if (p.getViaggi() != null) {
 			 
-			 Set<Viaggio> viaggi = p.getViaggi();
-			 p.setViaggi(viaggi);
+			 p.setViaggi(p.getViaggi());
 			 
              }
 		
-		 for (Viaggio viaggio : p.getViaggi()) {
-	            viaggio.setPrenotazione(p);
-	        }
 		 
 		 Utente u = p.getUtente();
 	        if (u != null) {

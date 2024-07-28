@@ -21,7 +21,7 @@
     }
 
     .btn-conferma {
-      background-color: #146390;
+      background-color: #1d4e8d;
     }
 
     .bg-color {
@@ -181,6 +181,31 @@
         }
       }
 
+      // class Viaggio {
+      //   constructor(destinazione, prezzo) {
+      //     this.destinazione = destinazione,
+      //       this.prezzo = prezzo
+      //   }
+      // }
+
+      // let viaggiModel = [];
+      // viaggiCarrello.forEach(viaggio => {
+      //   let viaggioModel = new Viaggio(viaggio.destinazione, viaggio.prezzo)
+      //   viaggiModel.push(viaggioModel);
+      // })
+
+      // fetch("http://localhost:9004/api/viaggi").then(data => { return data.json() }).then(viaggi => {
+      //   let viaggiPost = [];
+      //   viaggiCarrello.forEach(viaggioStorage => {
+      //     let viaggiPostFilter = viaggi.filter(viaggioFetch => viaggioFetch.destinazione == viaggioStorage.destinazione);
+      //     viaggiPost.push(...viaggiPostFilter);
+
+      //   })
+
+      // console.log(viaggiPost);
+
+
+
       let prenotazione = new Prenotazione(new Date(), viaggiCarrello, userConnesso[0]);
       console.log(prenotazione);
       console.log(viaggiCarrello);
@@ -197,11 +222,11 @@
           return response.json();
         }).then(data => {
           let messaggioConferma = document.createElement("h4");
-          messaggioConferma.setAttribute("class", "text-white mt-5 p-4 bg-header rounded");
           let countdown = 7;
 
           setInterval(() => {
             messaggioConferma.textContent = "Il viaggio è stato confermato con successo. Stai per essere reindirizzato tra " + countdown + " secondi."
+            messaggioConferma.setAttribute("class", "text-white mt-5 p-4 bg-header rounded");
             countdown--;
             if (countdown <= 0) {
 
@@ -221,7 +246,7 @@
         });
 
       })
-
+      // })
 
     } else {
       document.querySelector("#noViaggi").textContent = "Non hai selezionato nessun viaggio.";

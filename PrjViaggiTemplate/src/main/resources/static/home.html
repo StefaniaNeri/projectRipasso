@@ -29,7 +29,7 @@
     }
 
     .btn-color {
-      background-color: #3384b3;
+      background-color: #1d4e8d;
     }
 
     .bg-header {
@@ -115,7 +115,7 @@
         let userConnesso = JSON.parse(userConnessoJSON);
 
         ///////// MOSTRA VIAGGI
-        viaggi.forEach(viaggio => {
+        viaggi.forEach((viaggio, index) => {
           let card = document.createElement("div");
           card.setAttribute("class", "shadow p-3 bg-color text-white card m-3 border border-light rounded-3");
           card.style.width = "20rem";
@@ -154,14 +154,16 @@
               }
             }
 
-            let viaggioDaDeletare = new Viaggio(viaggio.id_viaggio, viaggio.destinazione, viaggio.prezzo);
 
             buttonDelete.addEventListener("click", function () {
+              let viaggioDaDeletare = new Viaggio(viaggio.id_viaggio, viaggio.destinazione, viaggio.prezzo);
+
               fetch(URLViaggi, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(viaggioDaDeletare)
               })
+              location.reload();
             })
           } else {
             navUtenti.classList.add("d-none");
