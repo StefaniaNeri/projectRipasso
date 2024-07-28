@@ -1,6 +1,10 @@
 package com.viaggiTemplate.entities;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -9,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Prenotazione {
@@ -19,9 +24,8 @@ public class Prenotazione {
 	
 	private Date dataPrenotazione;
 	
-	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name= "id_viaggio")
-	private Viaggio viaggio;
+	@OneToMany(mappedBy = "prenotazione", cascade = CascadeType.MERGE)
+	private Set<Viaggio> viaggi = new HashSet<Viaggio>();
 	
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name= "id_utente")
@@ -43,12 +47,14 @@ public class Prenotazione {
 		this.dataPrenotazione = dataPrenotazione;
 	}
 
-	public Viaggio getViaggio() {
-		return viaggio;
+	
+
+	public Set<Viaggio> getViaggi() {
+		return viaggi;
 	}
 
-	public void setViaggio(Viaggio viaggio) {
-		this.viaggio = viaggio;
+	public void setViaggi(Set<Viaggio> viaggi) {
+		this.viaggi = viaggi;
 	}
 
 	public Utente getUtente() {

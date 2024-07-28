@@ -1,6 +1,8 @@
 package com.viaggiTemplate.services;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +53,29 @@ public class ViaggiServiceImpl implements ViaggiServices{
 
 	@Override
 	public Prenotazione addPrenotazione(Prenotazione p) {
+		
+		 if (p.getViaggi() != null) {
+			 
+			 Set<Viaggio> viaggi = p.getViaggi();
+			 p.setViaggi(viaggi);
+			 
+             }
+		
+		 for (Viaggio viaggio : p.getViaggi()) {
+	            viaggio.setPrenotazione(p);
+	        }
+		 
+		 Utente u = p.getUtente();
+	        if (u != null) {
+	        	  if (u.getPrenotazioni() == null) {
+	                  u.setPrenotazioni(new HashSet<>());
+	              }
+	            u.getPrenotazioni().add(p);
+	            p.setUtente(u);
+	            uDao.save(u); // Salva l'utente aggiornato
+	        }
+	     
+		 
 		return pDao.save(p);
 	}
 

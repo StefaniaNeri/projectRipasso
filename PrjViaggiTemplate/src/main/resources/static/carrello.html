@@ -135,7 +135,7 @@
 
     let prezzoTotale = 0;
 
-    if (viaggiCarrello.length > 0) {
+    if (viaggiCarrello && viaggiCarrello.length > 0) {
       viaggiCarrello.forEach((viaggio, index) => {
         let li = document.createElement("li");
         li.setAttribute("class", "list-group-item rounded d-flex align-items-center justify-content-between mb-2");
@@ -157,7 +157,6 @@
 
         // Calcolo somma
         prezzoTotale += viaggio.prezzo;
-        console.log(prezzoTotale);
 
       });
 
@@ -174,27 +173,55 @@
 
       riepilogo.append(h3, h4prezzo, buttonConferma);
 
-      // POST PER OGNI VIAGGIO
-      viaggiCarrello.forEach(viaggio => {
-
-        class Prenotazione {
-          constructor(dataPrenotazione, viaggio, utente) {
-            this.dataPrenotazione = dataPrenotazione,
-              this.viaggio = viaggio,
-              this.utente = utente
-          }
+      class Prenotazione {
+        constructor(dataPrenotazione, viaggio, utente) {
+          this.dataPrenotazione = dataPrenotazione,
+            this.viaggio = viaggio,
+            this.utente = utente
         }
+      }
 
-        let prenotazione = new Prenotazione(new Date(), viaggio, userConnesso[0])
+      let prenotazione = new Prenotazione(new Date(), viaggiCarrello, userConnesso[0]);
+      console.log(prenotazione);
+      console.log(viaggiCarrello);
 
-        buttonConferma.addEventListener("click", function () {
-          fetch("http://localhost:9004/api/prenotazioni", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(prenotazione)
-          });
-        })
+      buttonConferma.addEventListener("click", function () {
+        fetch("http://localhost:9004/api/prenotazioni", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(prenotazione)
+        }).then(response => {
+          if (!response.ok) {
+            throw new Error("Qualcosa è andato storto");
+          }
+          return response.json();
+        }).then(data => {
+          let messaggioConferma = document.createElement("h4");
+          messaggioConferma.setAttribute("class", "text-white mt-5 p-4 bg-header rounded");
+          let countdown = 7;
+
+          setInterval(() => {
+            messaggioConferma.textContent = "Il viaggio è stato confermato con successo. Stai per essere reindirizzato tra " + countdown + " secondi."
+            countdown--;
+            if (countdown <= 0) {
+
+              document.body.removeChild(confermaMessaggio);
+              clearInterval(countdownInterval);
+            }
+          }, 1000);
+
+          viaggiSelezionati.append(messaggioConferma);
+
+          setTimeout(() => {
+            localStorage.removeItem("viaggiCarrello");
+            window.location = "home.html";
+          }, 7000);
+
+
+        });
+
       })
+
 
     } else {
       document.querySelector("#noViaggi").textContent = "Non hai selezionato nessun viaggio.";

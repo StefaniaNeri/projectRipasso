@@ -3,6 +3,8 @@ package com.viaggiTemplate.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +22,7 @@ public class Utente {
 	private String nome, email, password, role;
 	
 	@OneToMany(mappedBy = "utente", cascade = CascadeType.MERGE)
+	@JsonBackReference
 	private Set<Prenotazione> prenotazioni = new HashSet<Prenotazione>();
 
 	public int getId_utente() {

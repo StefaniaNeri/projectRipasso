@@ -3,11 +3,15 @@ package com.viaggiTemplate.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -20,8 +24,9 @@ public class Viaggio {
 	private String destinazione;
 	private double prezzo;
 	
-	@OneToMany(mappedBy = "viaggio", cascade = CascadeType.ALL)
-	private Set<Prenotazione> prenotazioni = new HashSet<Prenotazione>();
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name= "id")
+	private Prenotazione prenotazione;
 
 	public int getId_viaggio() {
 		return id_viaggio;
@@ -47,13 +52,15 @@ public class Viaggio {
 		this.prezzo = prezzo;
 	}
 
-	public Set<Prenotazione> getPrenotazioni() {
-		return prenotazioni;
+	public Prenotazione getPrenotazione() {
+		return prenotazione;
 	}
 
-	public void setPrenotazioni(Set<Prenotazione> prenotazioni) {
-		this.prenotazioni = prenotazioni;
+	public void setPrenotazione(Prenotazione prenotazione) {
+		this.prenotazione = prenotazione;
 	}
+
+	
 	
 	
 	
