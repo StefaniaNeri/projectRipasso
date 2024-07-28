@@ -22,4 +22,9 @@ public class ViaggiMvc {
 	public String utenti() {
 		return "utenti";
 	}
+	
+	@GetMapping("index")
+	public String index() {
+		return "index";
+	}
 }
