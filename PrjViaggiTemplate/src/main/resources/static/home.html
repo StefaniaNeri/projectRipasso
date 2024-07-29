@@ -130,7 +130,7 @@
 
           let button = document.createElement("button");
           button.setAttribute("class", "btn btn-color border text-white py-2 fs-5");
-          button.textContent = "Prenota";
+          button.textContent = "Aggiungi al carrello";
 
           card.append(cardImg, cardBody, button);
 
@@ -193,6 +193,7 @@
 
             // Prenota diventa non cliccabile
             button.classList.add("disabled");
+            button.textContent = "Aggiunto al carrello!";
 
             // // Appare bottone elimina da carrello
             // let buttonDelete = document.createElement("button");
