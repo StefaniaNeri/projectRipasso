@@ -55,16 +55,14 @@ public class ViaggiServiceImpl implements ViaggiServices{
 	public Prenotazione addPrenotazione(Prenotazione p) {
 		
 		
-		for (Viaggio viaggio : p.getViaggi()) {
-			viaggio.setPrenotazione(p);
-//			vDao.save(viaggio);
-		}
-		
- 	if (p.getViaggi() != null) {
-			 
-			 p.setViaggi(p.getViaggi());
-			 
-             }
+		  if (p.getViaggi() != null) {
+		        Set<Viaggio> viaggi = new HashSet<>();
+		        for (Viaggio viaggio : p.getViaggi()) {
+		            viaggio.setPrenotazione(p);
+		            viaggi.add(viaggio);
+		        }
+		        p.setViaggi(viaggi);
+		    }
 		
 		 
 		 Utente u = p.getUtente();
@@ -77,8 +75,10 @@ public class ViaggiServiceImpl implements ViaggiServices{
 	            uDao.save(u); // Salva l'utente aggiornato
 	        }
 	     
-		 
-		return pDao.save(p);
+	        System.out.println("Adding prenotazione: " + p);
+	        Prenotazione savedPrenotazione = pDao.save(p);
+	        System.out.println("Prenotazione saved: " + savedPrenotazione);
+	        return savedPrenotazione;
 	}
 
 	@Override

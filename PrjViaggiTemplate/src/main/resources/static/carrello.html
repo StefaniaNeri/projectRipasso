@@ -211,7 +211,8 @@
       console.log(viaggiCarrello);
 
       buttonConferma.addEventListener("click", function () {
-        fetch("http://localhost:9004/api/prenotazioni", {
+        console.log("Conferma button clicked");
+        fetch("http://localhost:9005/api/prenotazioni", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(prenotazione)
@@ -221,6 +222,7 @@
           }
           return response.json();
         }).then(data => {
+          console.log("Prenotazione confermata:", data);
           let messaggioConferma = document.createElement("h4");
           let countdown = 7;
 
@@ -251,13 +253,6 @@
     } else {
       document.querySelector("#noViaggi").textContent = "Non hai selezionato nessun viaggio.";
     }
-
-
-    // VAI AL CARRELLO
-    let btnCarrello = document.querySelector("#btnCarrello");
-    btnCarrello.addEventListener("click", function () {
-      window.location = "carrello.html";
-    })
 
     // LOGOUT
     let btnLogout = document.querySelector("#btnLogout");

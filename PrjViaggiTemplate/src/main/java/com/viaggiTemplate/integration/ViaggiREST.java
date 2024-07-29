@@ -14,13 +14,14 @@ import com.viaggiTemplate.entities.Prenotazione;
 import com.viaggiTemplate.entities.Utente;
 import com.viaggiTemplate.entities.Viaggio;
 import com.viaggiTemplate.services.ViaggiServiceImpl;
+import com.viaggiTemplate.services.ViaggiServices;
 
 @RestController
 @RequestMapping("api")
 public class ViaggiREST {
 	
 	@Autowired
-	private ViaggiServiceImpl vServ;
+	private ViaggiServices vServ;
 	
 	
 	@GetMapping("utenti")
@@ -50,11 +51,10 @@ public class ViaggiREST {
 	}
 	
 	@PostMapping("prenotazioni")
-	public Prenotazione addPrenotazione(@RequestBody Prenotazione p) {
-		
- 
+	public Prenotazione addPrenotazionepost(@RequestBody Prenotazione p) {
 		return vServ.addPrenotazione(p);
 	}
+
 	
 	@DeleteMapping("viaggi")
 	public void deleteViaggio(@RequestBody Viaggio v) {
