@@ -27,4 +27,9 @@ public class ViaggiMvc {
 	public String index() {
 		return "index";
 	}
+	
+	@GetMapping("registrazione")
+	public String registrazione() {
+		return "registrazione";
+	}
 }

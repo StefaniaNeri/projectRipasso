@@ -67,8 +67,12 @@
         <div class="fs-5">
           <small>Per accedere come utente base: <br> email: <em>dario.ferretti@example.com</em> <br> password:
             <em>password</em></small>
+
         </div>
+
         <button class="w-100 btn btn-lg btn-color mt-4 text-white border " type="button" id="loginBtn">Accedi</button>
+        <h4 class="mt-4">Nuovo utente? <a href="registrazione.html">Registrati</a></h4>
+
         <!-- </form> -->
       </div>
 
@@ -119,30 +123,6 @@
         })
 
     })
-
-    // PRESS ENTER
-    // loginBtn.addEventListener("keypress", function (event) {
-    //   if (event.key == "Enter") {
-    //     let emailInput = document.querySelector("#emailInput").value;
-    //     let passInput = document.querySelector("#passInput").value;
-
-    //     fetch(URLutenti)
-    //       .then(data => { return data.json() })
-    //       .then(response => {
-    //         response = response.filter((user) => user.email == emailInput && user.password == passInput);
-    //         if (response.length > 0) {
-    //           localStorage.setItem("userConnesso", JSON.stringify(response));
-    //           window.location = "home.html";
-    //         } else {
-    //           document.querySelector("#feed").innerHTML = "<h4>Email o password errati!! </h4>";
-    //         }
-    //         return response;
-    //       })
-
-    //   }
-
-
-    // })
 
 
   </script>
