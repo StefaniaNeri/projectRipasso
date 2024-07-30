@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Spettacoli</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+  <!-- Icone -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <style>
+    body {
+      background-color: #9CDBA6;
+    }
+
+    .btn-color {
+      background-color: #50B498
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <a class="navbar-brand ps-5" href="#">TEATRO</a>
+      <div class="container">
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+          data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+          <ul class="navbar-nav me-auto mt-2 mt-lg-0 fs-4">
+            <li class="nav-item  me-5">
+              <a class="nav-link active" href="#" aria-current="page">Spettacoli
+                <span class="visually-hidden">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="prenotazioni.html">Prenotazioni</a>
+
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+
+  </header>
+  <main>
+
+    <div class="container">
+      <h1 class="text-center mt-4">Spettacoli disponibili</h1>
+
+      <div id="listaSpettacoli" class="mt-5 d-flex flex-wrap justify-content-center"></div>
+
+    </div>
+
+  </main>
+  <footer>
+    <!-- place footer here -->
+  </footer>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+  <script>
+
+    const URLspettacoli = "http://localhost:9002/api/spettacoli";
+
+    let listaSpettacoli = document.querySelector('#listaSpettacoli');
+
+    let itemsCarrello = localStorage.getItem("spetCarrello") ? JSON.parse(localStorage.getItem("spetCarrello")) : [];
+
+    fetch(URLspettacoli).then(data => { return data.json() }).then(spettacoli => {
+
+      spettacoli.forEach(spettacolo => {
+        let card = document.createElement("div");
+        card.setAttribute("class", "shadow p-3 bg-body card m-3 border border-4 border-dark rounded-3");
+        card.style.width = "20rem";
+        listaSpettacoli.append(card);
+
+        let cardImg = document.createElement("img");
+        cardImg.setAttribute("class", "card-img-top");
+        cardImg.setAttribute("src", "https://www.teatrodellatoscana.it/media/banner/teatro-della-pergola-banner.jpg");
+
+        let cardBody = document.createElement("div");
+        cardBody.setAttribute("class", "card-body");
+
+        let button = document.createElement("button");
+        button.setAttribute("class", "btn btn-success py-2 fs-5");
+        button.textContent = "Prenota un posto";
+
+        card.append(cardImg, cardBody, button);
+
+        let cardTitle = document.createElement("h4");
+        cardTitle.setAttribute("class", "card-title mb-3");
+        cardTitle.textContent = spettacolo.titolo;
+
+        let cardTextRegista = document.createElement("p");
+        cardTextRegista.setAttribute("class", "card-text");
+        cardTextRegista.textContent = "Regista: " + spettacolo.regista;
+
+        let cardTextCast = document.createElement("p");
+        cardTextCast.setAttribute("class", "card-text");
+        cardTextCast.textContent = "Cast: " + spettacolo.attori;
+
+        cardBody.append(cardTitle, cardTextRegista, cardTextCast);
+
+        button.addEventListener('click', function () {
+
+          itemsCarrello[0] = spettacolo;
+          // itemsCarrello.push(spettacolo);
+          let itemsCarrelloJSON = JSON.stringify(itemsCarrello);
+          localStorage.setItem("spetCarrello", itemsCarrelloJSON)
+
+          window.location = "carrello.html";
+        })
+
+      });
+
+    })
+
+
+  </script>
+</body>
+
+</html>
