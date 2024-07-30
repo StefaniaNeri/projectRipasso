@@ -3,6 +3,8 @@ package com.viaggiTemplate.integration;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,34 +27,35 @@ public class ViaggiREST {
 	
 	
 	@GetMapping("utenti")
-	public List<Utente> getUtenti() {
-		return vServ.getUtenti();
+	public ResponseEntity<List<Utente>> getUtenti() {
+		return new ResponseEntity<>(vServ.getUtenti(), HttpStatus.OK);
 	}
 	
 	
 	@GetMapping("viaggi")
-	public List<Viaggio> getViaggi() {
-		return vServ.getViaggi();
+	public ResponseEntity<List<Viaggio>> getViaggi() {
+		return new ResponseEntity<>(vServ.getViaggi(),HttpStatus.OK);
 	}
 	
 	@GetMapping("prenotazioni")
-	public List<Prenotazione> getPrenotazione() {
-		return vServ.getPrenotazioni();
+	public ResponseEntity<List<Prenotazione>> getPrenotazioni() {
+		return new ResponseEntity<>(vServ.getPrenotazioni(),HttpStatus.OK);
 	}
 	
 	@PostMapping("utenti")
-	public Utente addUtente(@RequestBody Utente u) {
-		return vServ.addUtente(u);
+	public ResponseEntity<Utente> addUtente(@RequestBody Utente u) {
+//		Utente utente = vServ.addUtente(u);
+		return new ResponseEntity<>(vServ.addUtente(u), HttpStatus.CREATED);
 	}
 	
 	@PostMapping("viaggi")
-	public Viaggio addViaggio(@RequestBody Viaggio v) {
-		return vServ.addViaggio(v);
+	public ResponseEntity<Viaggio> addViaggio(@RequestBody Viaggio v) {
+		return new ResponseEntity<>(vServ.addViaggio(v), HttpStatus.CREATED);
 	}
 	
 	@PostMapping("prenotazioni")
-	public Prenotazione addPrenotazionepost(@RequestBody Prenotazione p) {
-		return vServ.addPrenotazione(p);
+	public ResponseEntity<Prenotazione> addPrenotazionepost(@RequestBody Prenotazione p) {
+		return new ResponseEntity<>(vServ.addPrenotazione(p), HttpStatus.CREATED);
 	}
 
 	

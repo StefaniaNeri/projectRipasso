@@ -36,3 +36,5 @@ public class ScuolaREST {
 		return new ResponseEntity<>(studente, HttpStatus.CREATED);
 	}
 }
+
+

@@ -163,7 +163,10 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(viaggioDaDeletare)
               })
-              location.reload();
+              setTimeout(() => {
+                location.reload();
+
+              }, 1500);
             })
           } else {
             navUtenti.classList.add("d-none");
