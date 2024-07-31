@@ -1,5 +1,0 @@
-# Created at 2024-07-31T15:23:48.731
-Boot Manifest-JAR contains absolute paths in classpath 'Z:\Neri\eclipse-workspace\PrjTeatroESAME\target\test-classes'
-Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
-'other' has different root
-
