@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Home</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <!-- Icone -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    body {
+      background-image: url(https://www.teatrodellatoscana.it/media/banner/teatro-della-pergola-banner.jpg);
+    }
+
+    .parallax {
+      /* Set a specific height */
+      min-height: 500px;
+
+      /* Create the parallax scrolling effect */
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .btn-color {
+      background-color: #530808;
+
+    }
+
+    .bg-header {
+      background-color: #1111119c;
+    }
+
+    .bg-color {
+      background-color: #d68a18b0;
+    }
+  </style>
+</head>
+
+<body class="d-flex flex-column min-vh-100 parallax">
+  <header>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-header py-3">
+      <a class="navbar-brand ps-5" href="#">MUSICALZ</a>
+      <div class="container">
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+          data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-flex align-items-center" id="collapsibleNavId">
+          <ul class="navbar-nav me-auto mt-2 mt-lg-0 fs-4">
+            <li class="nav-item border rounded me-3 px-3">
+              <a class="nav-link active" href="home" aria-current="page">Home
+                <span class="visually-hidden">(current)</span></a>
+            </li>
+            <li class="nav-item me-3 border rounded px-3" id="navPrenotazioni">
+              <a class="nav-link" href="prenotazioni">Prenotazioni</a>
+            </li>
+
+          </ul>
+
+        </div>
+      </div>
+      <div class="nav-item ms-auto">
+
+        <button id="btnCarrello" class="btn btn-color fs-4 text-white me-3 border">Carrello <i
+            class='bi bi-cart'></i></button>
+        <button id="btnLogout" class="btn btn-danger fs-4 me-5 border">Logout</button>
+      </div>
+    </nav>
+
+  </header>
+  <main>
+    <div class="container">
+      <h1 class="text-center mt-4 text-white bg-header rounded p-3">Catalogo</h1>
+
+      <div id="listaTeatri" class="my-5 d-flex flex-wrap justify-content-center"></div>
+
+
+    </div>
+
+
+  </main>
+  <footer class="mt-auto bg-header text-white text-center py-3 d-flex align-items-center justify-content-center">
+    <small class="fs-5">&copy;Stefania B22-104-2024 TSS</small>
+  </footer>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+
+  <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+      let navPrenotazioni = document.querySelector("#navPrenotazioni");
+
+      const URLTeatri = "http://localhost:9013/api/teatri";
+      const URLSpettacoli = "http://localhost:9013/api/spettacoli";
+      const URLRepliche = "http://localhost:9013/api/repliche";
+
+
+      let listaTeatri = document.querySelector('#listaTeatri');
+      let spettacoliCarrello = localStorage.getItem("spettacoliCarrello") ? JSON.parse(localStorage.getItem("spettacoliCarrello")) : [];
+      let replicheCarrello = localStorage.getItem("replicheCarrello") ? JSON.parse(localStorage.getItem("replicheCarrello")) : [];
+
+      Promise.all([
+      fetch(URLTeatri).then(response => response.json()),
+      fetch(URLSpettacoli).then(response => response.json()),
+      fetch(URLRepliche).then(response => response.json()),
+    ]).then(([teatri, spettacoli,repliche]) => {
+
+        let userConnessoJSON = localStorage.getItem("userConnesso");
+        let userConnesso = JSON.parse(userConnessoJSON);
+
+
+        ///////// MOSTRA TEATRI, SPETTACOLI E REPLICHE
+        teatri.forEach(teatro => {
+          
+          let spettCurrent = spettacoli.filter((spett) => spett.cod_teatro.cod_teatro == teatro.cod_teatro)
+          spettCurrent.forEach(spett => {
+
+            let replicaCurrent = repliche.filter((rep) => spett.cod_spettacolo == rep.cod_spettacolo.cod_spettacolo);
+            replicaCurrent.forEach(replica => {
+
+            let card = document.createElement("div");
+            
+            card.setAttribute("class", "shadow p-3 bg-color text-white card m-3 border border-light rounded-3");
+            card.style.width = "20rem";
+            listaTeatri.append(card);
+
+            let cardTitleNomeSpettacolo = document.createElement("h4");
+            cardTitleNomeSpettacolo.setAttribute("class", "card-title mb-3");
+            cardTitleNomeSpettacolo.textContent = "Musical: " + spett.titolo;
+    
+          let cardImg = document.createElement("img");
+          cardImg.setAttribute("class", "card-img-top");
+          cardImg.setAttribute("src", "https://www.teatro.it/images/articles/6210/main-image/teatro.it-musical-stagione-21-22.jpg");
+            
+          let cardTitleNomeTeatro = document.createElement("h5");
+          cardTitleNomeTeatro.setAttribute("class", "card-title mb-3");
+          cardTitleNomeTeatro.textContent = "Dove: " + teatro.nome;
+            
+          let button = document.createElement("button");
+            button.setAttribute("class", "btn btn-color border text-white py-2 fs-5");
+            button.textContent = "Prenota";
+            
+          let cardBody = document.createElement("div");
+          cardBody.setAttribute("class", "card-body");
+          card.append(cardTitleNomeSpettacolo,cardImg, cardBody, button);
+
+          let autoreSpettacolo = document.createElement("p");
+          autoreSpettacolo.setAttribute("class", "card-text");
+          autoreSpettacolo.textContent = "Autore: " + spett.autore;
+
+          let registaSpettacolo = document.createElement("p");
+          registaSpettacolo.setAttribute("class", "card-text");
+          registaSpettacolo.textContent = "Regista: " + spett.regista;
+
+          let cardTextPrezzo = document.createElement("p");
+          cardTextPrezzo.setAttribute("class", "card-text");
+          cardTextPrezzo.textContent = "Prezzo: " + spett.prezzo + ",00€";
+
+          let cardTextReplica = document.createElement("p");
+          cardTextReplica.setAttribute("class", "card-text");
+          cardTextReplica.textContent = "Data: " + replica.data_replica;
+
+          let codiceReplica = document.createElement("p");
+          codiceReplica.setAttribute("class", "card-text");
+          codiceReplica.textContent = "Codice replica: " + replica.cod_replica;
+
+
+          // METODO PAGAMENTO
+          let selectMetodoPagamento = document.createElement("select");
+          selectMetodoPagamento.setAttribute("class", "form-select");
+          selectMetodoPagamento.setAttribute("name", "metodoPagamento");
+
+          let optionSeleziona = document.createElement("option");
+          optionSeleziona.textContent = "Seleziona metodo di pagamento";
+          let optionCartaCredito = document.createElement("option");
+          optionCartaCredito.textContent = "Carta di credito";
+          optionCartaCredito.setAttribute("value","Carta di credito");
+          let optionBonifico = document.createElement("option");
+          optionBonifico.textContent = "Bonifico";
+          optionBonifico.setAttribute("value","Bonifico");
+
+          selectMetodoPagamento.append(optionSeleziona,optionCartaCredito,optionBonifico);
+
+
+          // QUANTITA' BIGLIETTI
+          let quantitaBigliettiTitle = document.createElement("label");
+          quantitaBigliettiTitle.setAttribute("class","form-label my-2");
+          quantitaBigliettiTitle.textContent = "Quanti biglietti?"
+
+          let quantitaBiglietti = document.createElement("input");
+          quantitaBiglietti.setAttribute("type","number");
+          quantitaBiglietti.setAttribute("class","form-control");
+          quantitaBiglietti.setAttribute("name","quantita");
+
+
+          cardBody.append(cardTitleNomeTeatro,autoreSpettacolo,  registaSpettacolo, cardTextPrezzo, cardTextReplica, codiceReplica, selectMetodoPagamento, quantitaBigliettiTitle, quantitaBiglietti);
+            
+            button.addEventListener('click', function () {
+
+              // class Spettacolo{
+              //   constructor(cod_spettacolo,autore,cod_teatro,prezzo,regista,titolo){
+              //     this.cod_spettacolo = cod_spettacolo,
+              //     this.autore = autore,
+              //     this.cod_teatro = cod_teatro,
+              //     this.prezzo = prezzo,
+              //     this.regista = regista,
+              //     this.titolo = titolo
+              //   }
+              // }
+
+              // class Replica{
+              //   constructor(cod_replica,cod_spettacolo,data_replica){
+              //     this.cod_replica = cod_replica,
+              //     this.cod_spettacolo = cod_spettacolo,
+              //     this.data_replica = data_replica
+              //   }
+              // }
+              
+              // class Teatro{
+              //   constructor(cod_teatro,citta,indirizzo,nome,posti,provincia,telefono){
+              //     this.cod_teatro = cod_teatro,
+              //     this.citta = citta,
+              //     this.indirizzo = indirizzo,
+              //     this.nome = nome,
+              //     this.posti = posti,
+              //     this.provincia = provincia,
+              //     this.telefono = telefono
+              //   }
+              // }
+              
+              // let spettacolo = new Spettacolo(spett.cod_spettacolo,spett.autore,spett.cod_teatro,spett.prezzo,spett.regista,spett.titolo);
+
+              // let replicaDaPushare = new Replica(replica.cod_replica, replica.cod_spettacolo, replica.data_replica);
+
+              class Biglietto{
+                constructor(cod_cliente,cod_replica,data_ora,quantita, tipo_pagamento){
+                  this.cod_cliente = cod_cliente,
+                  this.cod_replica = cod_replica,
+                  this.data_ora = data_ora,
+                  this.quantita = quantita,
+                  this.tipo_pagamento = tipo_pagamento
+                }
+              }
+
+              selectMetodoPagamento.addEventListener("change", function() {
+                let biglietto = new Biglietto(userConnesso[0], replica, new Date(), quantitaBiglietti.value, selectMetodoPagamento.value);
+                console.log(biglietto);
+  
+                // fetch("http://localhost:9013/api/biglietti",{
+                //   method: "POST",
+                //   headers: {"Content-Type":"application/json"},
+                //   body: JSON.stringify(biglietto)
+                // });
+                window.location = "prenotazioni";
+
+              })
+
+
+
+              
+              // spettacoliCarrello.push(spettacolo);
+              // let spettacoliCarrelloJSON = JSON.stringify(spettacoliCarrello);
+              // localStorage.setItem("spettacoliCarrello", spettacoliCarrelloJSON);
+
+              // replicheCarrello.push(replicaDaPushare);
+              // let replicheCarrelloJSON = JSON.stringify(replicheCarrello);
+              // localStorage.setItem("replicheCarrello", replicheCarrelloJSON);
+              
+              // // Prenota diventa non cliccabile
+              // button.classList.add("disabled");
+              // button.textContent = "Aggiunto al carrello!";
+              
+            });
+        
+  
+          })
+        });
+          
+        
+        });
+
+      })
+    
+
+      // VAI AL CARRELLO
+      // let btnCarrello = document.querySelector("#btnCarrello");
+      // btnCarrello.addEventListener("click", function () {
+      //   window.location = "carrello";
+      // })
+
+
+      // LOGOUT
+      let btnLogout = document.querySelector("#btnLogout");
+      btnLogout.addEventListener("click", function () {
+
+        localStorage.clear();
+        window.location = "index";
+      })
+
+    })
+  </script>
+</body>
+
+</html>
