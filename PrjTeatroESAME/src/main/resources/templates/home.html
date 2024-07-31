@@ -257,19 +257,35 @@
                 }
               }
 
-              selectMetodoPagamento.addEventListener("change", function() {
                 let biglietto = new Biglietto(userConnesso[0], replica, new Date(), quantitaBiglietti.value, selectMetodoPagamento.value);
                 console.log(biglietto);
   
-                // fetch("http://localhost:9013/api/biglietti",{
-                //   method: "POST",
-                //   headers: {"Content-Type":"application/json"},
-                //   body: JSON.stringify(biglietto)
-                // });
-                window.location = "prenotazioni";
+                fetch("http://localhost:9013/api/biglietti",{
+                  method: "POST",
+                  headers: {"Content-Type":"application/json"},
+                  body: JSON.stringify(biglietto)
+                });
 
-              })
+                let messaggioConferma = document.createElement("h4");
+          let countdown = 7;
 
+          setInterval(() => {
+            messaggioConferma.textContent = "Il viaggio è stato confermato con successo. Stai per essere reindirizzato alle prenotazioni tra " + countdown + " secondi."
+            messaggioConferma.setAttribute("class", "text-white mt-5 p-4 bg-header rounded");
+            countdown--;
+            if (countdown <= 0) {
+
+              document.body.removeChild(confermaMessaggio);
+              clearInterval(countdownInterval);
+            }
+          }, 1000);
+
+          button.append(messaggioConferma);
+
+          setTimeout(() => {
+            // localStorage.removeItem("spettacoliCarrello");
+            window.location = "prenotazioni";
+          }, 7000);
 
 
               
