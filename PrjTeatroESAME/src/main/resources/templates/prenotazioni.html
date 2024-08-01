@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Prenotazioni</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+      <!-- Icone -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <style>
+    body {
+      background-image: url(https://www.teatrodellatoscana.it/media/banner/teatro-della-pergola-banner.jpg);
+    }
+
+    .parallax {
+      /* Set a specific height */
+      min-height: 500px;
+
+      /* Create the parallax scrolling effect */
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .btn-color {
+      background-color: #530808;
+
+    }
+
+    .bg-header {
+      background-color: #1111119c;
+    }
+
+    .bg-color {
+      background-color: #d68a18b0;
+    }
+  </style>
+</head>
+
+<body class="d-flex flex-column min-vh-100 parallax">
+  <header>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-header py-3">
+      <a class="navbar-brand ps-5" href="#">MUSICALZ</a>
+      <div class="container">
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+          data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-flex align-items-center" id="collapsibleNavId">
+          <ul class="navbar-nav me-auto mt-2 mt-lg-0 fs-4">
+            <li class="nav-item border rounded me-3 px-3">
+              <a class="nav-link " href="home" >Home
+               </a>
+            </li>
+            <li class="nav-item me-3 border rounded px-3" id="navPrenotazioni">
+              <a class="nav-link active" href="prenotazioni" aria-current="page">Prenotazioni</a>
+            </li>
+
+          </ul>
+
+        </div>
+      </div>
+      <div class="nav-item ms-auto">
+
+        <!-- <button id="btnCarrello" class="btn btn-color fs-4 text-white me-3 border">Carrello <i
+            class='bi bi-cart'></i></button> -->
+        <button id="btnLogout" class="btn btn-danger fs-4 me-5 border">Logout</button>
+      </div>
+    </nav>
+
+  </header>
+
+  <main>
+
+    <div class="container">
+      <table id="tabella" class="table table-striped table-hover my-5 border border-3 border-dark rounded">
+
+
+      </table>
+
+    </div>
+
+
+  </main>
+
+  <footer class="mt-auto bg-header text-white text-center py-3 d-flex align-items-center justify-content-center">
+    <small class="fs-5">&copy;Stefania B22-104-2024 TSS</small>
+  </footer>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+
+  <script>
+
+    let tabella = document.querySelector("#tabella");
+
+
+    let thead = document.createElement("thead");
+    thead.classList.add("table-dark")
+    let tbody = document.createElement("tbody");
+
+    tabella.append(thead, tbody);
+
+    let trHead = document.createElement("tr");
+    thead.append(trHead);
+
+    let th1 = document.createElement("th");
+    let th2 = document.createElement("th");
+    let th3 = document.createElement("th");
+    let th4 = document.createElement("th");
+    let th5 = document.createElement("th");
+    let th6 = document.createElement("th");
+    let th7 = document.createElement("th");
+    let th8 = document.createElement("th");
+
+
+    th1.textContent = "Nome e Cognome";
+    th1.classList.add("fs-4");
+    th2.textContent = "Tipo di pagamento"
+    th2.classList.add("fs-4");
+    th3.textContent = "N. biglietti";
+    th3.classList.add("fs-4");
+    th4.textContent = "Data";
+    th4.classList.add("fs-4");
+    th5.textContent = "Titolo";
+    th5.classList.add("fs-4");
+    th6.textContent = "Autore";
+    th6.classList.add("fs-4");
+    th7.textContent = "Regista";
+    th7.classList.add("fs-4");
+    th8.textContent = "Teatro";
+    th8.classList.add("fs-4");
+
+    trHead.append(th1, th2, th3, th4, th5, th6,th7,th8);
+
+
+    fetch("http://localhost:9013/api/biglietti").then(response => { return response.json() }).then(biglietti => {
+
+      biglietti.forEach(biglietto => {
+
+        console.log(biglietto);
+
+        let trBody = document.createElement("tr");
+        tbody.append(trBody);
+
+        let tdCliente = document.createElement("td");
+        tdCliente.textContent = biglietto.cod_cliente.nome + " " + biglietto.cod_cliente.cognome;
+
+        let td2 = document.createElement("td");
+        td2.textContent = biglietto.tipoPagamento;
+
+        let td3 = document.createElement("td");
+        td3.textContent = biglietto.quantita;
+
+        let td4 = document.createElement("td");
+        td4.textContent = biglietto.cod_replica.data_replica;
+
+        let td5 = document.createElement("td");
+        td5.textContent = biglietto.cod_replica.cod_spettacolo.titolo;
+
+        let td6 = document.createElement("td");
+        td6.textContent = biglietto.cod_replica.cod_spettacolo.autore;
+
+        let td7 = document.createElement("td");
+        td7.textContent = biglietto.cod_replica.cod_spettacolo.regista;
+
+        let td8 = document.createElement("td");
+        td8.textContent = biglietto.cod_replica.cod_spettacolo.cod_teatro.nome;
+
+        trBody.append(tdCliente, td2, td3, td4, td5,td6,td7,td8)
+
+
+      });
+
+
+    })
+
+
+         // LOGOUT
+         let btnLogout = document.querySelector("#btnLogout");
+      btnLogout.addEventListener("click", function () {
+
+        localStorage.clear();
+        window.location = "index";
+      })
+
+  </script>
+</body>
+
+</html>

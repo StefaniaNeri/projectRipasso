@@ -1,0 +1,15 @@
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\entities\Biglietto.java
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\entities\Cliente.java
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\entities\Replica.java
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\entities\Spettacolo.java
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\entities\Teatro.java
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\integration\TeatroREST.java
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\presentation\TeatroMvc.java
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\PrjTeatroApplication.java
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\repos\BigliettoDAO.java
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\repos\ClienteDAO.java
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\repos\ReplicaDAO.java
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\repos\SpettacoloDAO.java
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\repos\TeatroDAO.java
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\services\TeatroService.java
+Z:\Neri\eclipse-workspace\PrjTeatroESAME\src\main\java\com\teatro\services\TeatroServiceImpl.java

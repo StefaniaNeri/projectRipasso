@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Prenotazioni</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+  <style>
+    body {
+      background-color: #9CDBA6;
+    }
+
+    .btn-color {
+      background-color: #50B498
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <a class="navbar-brand ps-5" href="#">TEATRO</a>
+      <div class="container">
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+          data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+          <ul class="navbar-nav me-auto mt-2 mt-lg-0 fs-4">
+            <li class="nav-item  me-5">
+              <a class="nav-link" href="index">Spettacoli</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link active" href="#" aria-current="page">Prenotazioni
+                <span class="visually-hidden">(current)</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+  </header>
+
+  <main>
+
+    <div class="container">
+      <table id="tabella" class="table table-striped table-hover my-5 border border-3 border-dark">
+
+        <!-- <thead>
+         <tr> -->
+        <!-- headers delle colonne -->
+        <!-- <th scope="col"></th>
+           <th scope="col"></th>
+           <th scope="col"></th>
+         </tr>
+       </thead>
+  
+       <tbody> -->
+        <!-- prima riga -->
+        <!-- <tr>
+           <th scope="row"></th>
+           <td></td>
+           <td></td>
+         </tr> -->
+        <!-- seconda riga -->
+        <!-- <tr>
+           <th scope="row"></th>
+           <td></td>
+           <td></td>
+         </tr>
+       </tbody> -->
+
+      </table>
+
+    </div>
+
+
+  </main>
+
+  <footer>
+    <!-- place footer here -->
+  </footer>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+
+  <script>
+
+    let tabella = document.querySelector("#tabella");
+
+
+    let thead = document.createElement("thead");
+    thead.classList.add("table-dark")
+    let tbody = document.createElement("tbody");
+
+    tabella.append(thead, tbody);
+
+    let trHead = document.createElement("tr");
+    thead.append(trHead);
+
+    let th1 = document.createElement("th");
+    let th2 = document.createElement("th");
+    let th3 = document.createElement("th");
+    let th4 = document.createElement("th");
+
+    th1.textContent = "Id prenotazione";
+    th1.classList.add("fs-4");
+    th2.textContent = "Data prenotazione"
+    th2.classList.add("fs-4");
+    th3.textContent = "Titolo spettacolo";
+    th3.classList.add("fs-4");
+    th4.textContent = "Replica";
+    th4.classList.add("fs-4");
+
+    trHead.append(th1, th2, th3, th4);
+
+
+    fetch("http://localhost:9002/api/prenotazioni").then(response => { return response.json() }).then(prenotazioni => {
+
+      prenotazioni.forEach(prenotazione => {
+
+        console.log(prenotazione);
+
+        let trBody = document.createElement("tr");
+        tbody.append(trBody);
+
+        let thId = document.createElement("th");
+        thId.textContent = prenotazione.id;
+
+        let td2 = document.createElement("td");
+        td2.textContent = prenotazione.dataPrenotazione;
+
+        let td3 = document.createElement("td");
+        td3.textContent = prenotazione.titoloSpettacolo;
+
+        let td4 = document.createElement("td");
+        // td4.textContent = "Replica data e ora";
+        // td4.textContent = `${prenotazione.replica.toString()}`;
+        td4.textContent = `${prenotazione.replica.data} alle ${prenotazione.replica.ora.substring(0, 5)}`;
+
+        trBody.append(thId, td2, td3, td4)
+
+
+      });
+
+
+    })
+
+  </script>
+</body>
+
+</html>
